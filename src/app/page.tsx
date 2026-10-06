@@ -1,0 +1,11 @@
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, ArrowUpRight, Check } from "lucide-react";
+import { Header, Ornaments } from "@/components/ui";
+export default function Home() {
+  return <div className="page home"><Ornaments /><Header active="home" /><main id="main" className="home-main">
+    <div className="home-intro"><div><p className="eyebrow">INT6066 · COURSE DESIGN STUDIO</p><h1>Start with people.<br />Find a problem<br />worth solving<span className="green-text">.</span></h1><p className="subtitle">Design of Innovative Learning Environments<br />with Technology</p><p className="muted">A shared space to observe, question and think together.<br />22 groups. Six perspectives each. One learning journey.</p></div><div className="diagram"><Image src="/design-thinking.png" alt="Design Thinking: Empathize, Define, Ideate, Prototype, Test and Implement in an iterative infinity loop" width={738} height={414} priority /><div className="diagram-caption"><span className="dot green" /> Today: Empathize → Define <ArrowUpRight size={20} /></div></div></div>
+    <div className="today-band"><div><span className="eyebrow">TODAY’S LEARNING PATH</span><h2>Understand learners.<br />Focus the learning problem.</h2></div><ol><li><Check size={17} /> Capture a specific user experience</li><li><Check size={17} /> Discuss evidence and unknowns</li><li><Check size={17} /> Write a problem statement and HMW</li></ol><Link className="btn" href="/join">Start Empathize <ArrowRight size={22} /></Link></div>
+    <div className="course-bottom"><section><p className="eyebrow">A COURSE-LONG JOURNEY</p><h3>Your thinking is the project.</h3><p>Begin with a learning need. Over the course, develop and evaluate an innovative learning environment, using pedagogical frameworks and purposeful AI or educational technology.</p></section><section><p className="eyebrow">KEEP THE PROCESS VISIBLE</p><p>Individual observations → Group discussion → Evidence & unknowns → A focused learning problem.</p><p className="muted">Revisit earlier evidence as your understanding changes. Today’s submission is a starting point for your next inquiry.</p></section></div>
+  </main><footer className="site-footer"><span>INT6066 · Design Studio</span><Link href="/join">Nicole · Teacher workspace <ArrowUpRight size={15} /></Link></footer></div>;
+}
