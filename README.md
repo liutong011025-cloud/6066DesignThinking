@@ -1,6 +1,6 @@
 # INT6066 Design Studio
 
-A complete English-language course workspace for 22 course groups of up to six students, plus a separate Test workspace. The first release covers Empathize and Define, with personal observations, shared discussions, evidence and unknowns, problem framing, versioned submissions, Nicole’s teacher feedback, and individual reflections.
+A complete English-language course workspace for 22 course groups with no member limit, plus a separate Test workspace. The first release covers Empathize and Define, with personal observations, shared discussions, evidence and unknowns, problem framing, versioned submissions, Nicole’s teacher feedback, and individual reflections.
 
 The visual design follows the supplied cream, black, green, orange, cyan and coral interface previews. The original Design Thinking diagram is included in `public/design-thinking.png`.
 
@@ -15,7 +15,7 @@ npm run dev:local
 
 Open http://127.0.0.1:3000. This runs a persistent local PostgreSQL-compatible database using PGlite. No cloud credentials are required. It is for local preview and testing; Vercel uses your actual Prisma Postgres database. Local data stays in `.local-data/`, which is excluded from Git and the deliverable ZIP.
 
-Students choose their existing group and enter their name. A returning student uses the same group and name. Names are normalized for spacing and case; each course group allows six identities. No student roster is pre-filled: the selected group and entered name establish the identity on first login. Test allows trial identities without the six-person limit, and is excluded from course progress totals and the class CSV. This is the classroom identification flow requested by the course owner, rather than a verified institutional sign-in. Nicole can remove unused identities to correct accidental registrations.
+Students choose their existing group and enter their name. A returning student uses the same group and name. Names are normalized for spacing and case; each course group allows any number of identities. No student roster is pre-filled: the selected group and entered name establish the identity on first login. Test allows trial identities, and is excluded from course progress totals and the class CSV. This is the classroom identification flow requested by the course owner, rather than a verified institutional sign-in. Nicole can remove unused identities to correct accidental registrations.
 
 Choose **Nicole · Teacher** and use the teacher password configured in `TEACHER_PASSWORD`. The local preview uses the password requested by the course owner. The password is checked on the server and never included in the browser bundle.
 
@@ -75,7 +75,7 @@ Assumptions can start a personal record but cannot satisfy direct user evidence.
 - Database-backed group work, observations, discussions, attachments, submission snapshots, feedback and reflections.
 - Shared fields autosave after a short pause; other members’ records refresh every 12 seconds. Teacher overview refreshes every 15 seconds.
 - Optimistic revision checks protect shared fields from silent overwrites. Students review teammate changes before choosing which changed fields to save.
-- Group membership limits and submission versions are protected by PostgreSQL row locks. Personal observations can only be edited by their author; students cannot read another group’s private records or post teacher feedback.
+- Group identity creation and submission versions are protected by PostgreSQL row locks. Personal observations can only be edited by their author; students cannot read another group’s private records or post teacher feedback.
 - Signed, HttpOnly, SameSite session cookies and same-origin mutation checks. Nicole’s password attempts are rate limited.
 - Temporary, unsaved text is backed up in the current browser tab. Database saves are the shared course record.
 - Uploaded evidence is stored in PostgreSQL and served through authenticated download routes. Each attachment is limited to 2 MB. Keep file evidence selective and anonymous.
@@ -90,7 +90,7 @@ npm run build
 npm run test:integration
 ```
 
-Integration tests automatically start a separate server on port 3001 and create a fresh, disposable in-memory database on port 54331. They never use the persistent course preview database. QA identities exist only inside that disposable database. They cover teacher authentication, the six-member limit, returning identities, author ownership, cross-group access, evidence classification, concurrent shared-field writes, stage completion, immutable submissions, teacher feedback, reflections and logout. The worker refuses to start unless invoked by the isolated runner. Build the project before running this suite.
+Integration tests automatically start a separate server on port 3001 and create a fresh, disposable in-memory database on port 54331. They never use the persistent course preview database. QA identities exist only inside that disposable database. They cover teacher authentication, unrestricted group membership, returning identities, author ownership, cross-group access, evidence classification, concurrent shared-field writes, stage completion, immutable submissions, teacher feedback, reflections and logout. The worker refuses to start unless invoked by the isolated runner. Build the project before running this suite.
 
 The migration test starts a disposable local PostgreSQL-compatible database, runs the actual `prisma migrate deploy` command twice, and verifies that the 22 course groups plus Test are initialized without duplicate registration.
 

@@ -85,7 +85,6 @@ export async function POST(req: NextRequest) {
         await tx.$queryRaw`SELECT id FROM "Group" WHERE id = ${groupId} FOR UPDATE`;
         const found = await tx.member.findUnique({ where: { groupId_nameKey: { groupId, nameKey } } });
         if (found) return found;
-        if (groupId !== 23 && await tx.member.count({ where: { groupId } }) >= 6) fail(409, "This group already has six members. Use your existing name or ask Nicole to correct the roster.");
         return tx.member.create({ data: { groupId, name, nameKey } });
       });
       await setSession({ role: "student", name: member.name, groupId, memberId: member.id });

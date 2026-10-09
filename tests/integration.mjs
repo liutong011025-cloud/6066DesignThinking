@@ -33,9 +33,10 @@ for (let i = 1; i <= 8; i++) await request('trial' + i, 'POST', { action: 'login
 const practice = await request('trial8', 'GET'); assert.equal(practice.group.id, 23); assert.equal(practice.group.members.length, 8);
 await request('teacher', 'POST', { action: 'feedback', groupId: 23, body: 'Practice feedback for the separate Test workspace.' });
 for (const name of ['QA Alice', 'QA Bob', 'QA C', 'QA D', 'QA E', 'QA F']) await request(name, 'POST', { action: 'login', group: 21, name });
-await request('seventh', 'POST', { action: 'login', group: 21, name: 'QA Seventh' }, '', 409);
+await request('seventh', 'POST', { action: 'login', group: 21, name: 'QA Seventh' });
+for (let i = 8; i <= 14; i++) await request('extra' + i, 'POST', { action: 'login', group: 21, name: 'QA Member ' + i });
 await request('repeat', 'POST', { action: 'login', group: 21, name: '  qa   alice  ' });
-let project = await request('QA Alice', 'GET'); assert.equal(project.group.members.length, 6);
+let project = await request('QA Alice', 'GET'); assert.equal(project.group.members.length, 14);
 await request('QA Alice', 'POST', { action: 'checkStep', step: 'unknown-step' }, '', 400);
 await checkStep('QA Alice', 'observation');
 // Every destination uses the same prerequisite check, including jumps to a
@@ -124,4 +125,4 @@ const outside = await request('outside', 'GET');
 await request('teacher', 'POST', { action: 'removeMember', memberId: outside.session.memberId });
 await request('outside', 'GET', null, '', 401);
 await request('QA Alice', 'POST', { action: 'logout' }); await request('QA Alice', 'GET', null, '', 401);
-console.log('PASS: 22 course groups plus unrestricted Test, teacher authentication, six-member cap, returning identity, required step checks and direct-jump protection, individual contribution gates, shared observations/comments, ownership, protected attachments, cross-group isolation, direct user evidence for patterns and focus, learning-goal requirement, optional fields left blank, optimistic concurrency, Empathize → Define, immutable submissions, teacher feedback, protected roster correction, reflection and logout.');
+console.log('PASS: 22 course groups plus unrestricted Test, teacher authentication, unrestricted course group membership, returning identity, required step checks and direct-jump protection, individual contribution gates, shared observations/comments, ownership, protected attachments, cross-group isolation, direct user evidence for patterns and focus, learning-goal requirement, optional fields left blank, optimistic concurrency, Empathize → Define, immutable submissions, teacher feedback, protected roster correction, reflection and logout.');
